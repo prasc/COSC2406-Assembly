@@ -18,11 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="readAndPrint.asm" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8e14b459-0d42-4bdc-8058-7ce62644710e}</ProjectGuid>
-    <RootNamespace>LabThree</RootNamespace>
+    <ProjectGuid>{4b34ac6d-05e9-461a-b2b1-b16cb6efe148}</ProjectGuid>
+    <RootNamespace>LabFour</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
