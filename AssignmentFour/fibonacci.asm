@@ -1,6 +1,6 @@
-; Assignment Four		(Loops.asm)
+; Assignment Four		(Fibonacci.asm)
 
-; Program Description:		Question One
+; Program Description:		Question Two
 ; Author:					Pras Cheliyan
 ; Creation Date:			November 18, 2020
 
@@ -8,8 +8,6 @@
 INCLUDE Irvine32.inc
 
 .data
-arrOne			WORD	SIZEOF ARRAY_SIZE
-arrTwo			DWORD	SIZEOF ARRAY_SIZE
 prompt			BYTE	"Enter a signed integer ", 0
 .code
 
