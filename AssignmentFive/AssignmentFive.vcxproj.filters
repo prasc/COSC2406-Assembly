@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="Module5Test.asm">
+    <MASM Include="linking.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

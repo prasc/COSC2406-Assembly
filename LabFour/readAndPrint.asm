@@ -2,28 +2,42 @@ TITLE {Read and Print} (readAndPrint.asm)
 ; 
 
 INCLUDE Irvine32.inc
+;word = 2 byte unsigned
+;sword = 2 byte signed
+;dword = 4 byte unsigned
+;sdword = 4 byte signed 
 
-.data
-arr		SWORD	5 DUP(?)
+; signed = maintain negative symbol is negative
+
+; ? means undefined value
+; 5 DUP(?)   -> 5 undefined values, ?,?,?,?,?
+; 3 DUP("hello") ->	"hello", "hello","hello"
+; 3 DUP(2 DUP("hi")) -> "hi"
+
+.data 
+arr		SWORD	5 DUP(?) 
 prompt	BYTE	"Enter an integer: ", 0
 comma	BYTE	", ", 0
 
 .code
 main PROC
-	mov edx, OFFSET prompt	;Syso prompt
-	call WriteString		
+	mov edx, OFFSET prompt	;Syso prompt				; put string called prompt into edx
+	call WriteString									; print string that is in edx
 	
-	call ReadInt			
-	mov arr, ax			;array[0] = in.nextInt()
+	;readInt = signed value
+	;readDec = unsigned value 
 
-	call WriteString		;Syso prompt
+	call ReadInt										; read user input and put it into eax
+	mov arr, ax			;array[0] = in.nextInt()		; arr is 2 bytes, eax is 4 bytes. So we only use ax, because it is 2 bytes
 
-	call ReadInt			
-	mov arr[+2], ax		;array[1] = in.nextInt()
+	call WriteString		;Syso prompt				; print the same string that is in edx
 
-	call WriteString		;Syso prompt
+	call ReadInt										; store user input into eax
+	mov arr[+2], ax		;array[1] = in.nextInt()		; move to arr[0 + 2] the value in ax (which is 2 bytes out of the eax)
 
-	call ReadInt			
+	call WriteString		;Syso prompt				; print same string from edx
+
+	call ReadInt					
 	mov arr[+4], ax		;array[2] = in.nextInt()
 
 	call WriteString		;Syso prompt
@@ -36,8 +50,8 @@ main PROC
 	call ReadInt			
 	mov arr[+8], ax		;array[4] = in.nextInt()
 
-	mov al, '{'		
-	call WriteChar		; print {
+	mov al, '{'										; edx = string, eax = integer, al = chars
+	call WriteChar		; print {					;WriteChar will print anything in al
 	
 	movsx eax, arr	
 	call WriteInt		;print array[0]

@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f51344ed-c0fa-4ecd-9ad4-497cf9a065ff}</ProjectGuid>
-    <RootNamespace>LabFive</RootNamespace>
+    <ProjectGuid>{de4734c4-14ad-4b45-8130-a01b4ccb5fdd}</ProjectGuid>
+    <RootNamespace>AssignmentFive</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -145,7 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <MASM Include="Module5Test.asm" />
+    <MASM Include="linking.asm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

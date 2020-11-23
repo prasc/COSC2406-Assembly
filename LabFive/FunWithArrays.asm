@@ -15,29 +15,32 @@ comma		BYTE	", "
 .code
 main PROC
 	call Randomize					;initialize randomize function
-	mov ecx, LENGTHOF numbers		;set loop counter
-	mov esi, 0						;reset index register
+	mov ecx, LENGTHOF numbers		;set loop counter ;automatically stop when ecx = 0					
+																			; edx = string, eax = int, al = char, ecx = loop counter
+	mov esi, 0						;reset index register				; esi  = index counter 
+
+	; the formula for range is ALWAYS, (high - low) + 1, 0-200, 200 - 0 + 1
 
 L1:	
-	mov eax, 200 - 0 + 1			;prepare eax for randomrange function
-	call RandomRange
-	mov numbers[esi], ax			;move word from ax into numbers array at esi
-	add esi, TYPE WORD				;increment index by two
+	mov eax, 200 - 0 + 1			;prepare eax for randomrange function			; for randomrange function, you need to put range in eax
+	call RandomRange																; call randomrange fnuction and it will generate value from range in eax
+	mov numbers[esi], ax			;move word from ax into numbers array at esi	esi = 0
+	add esi, TYPE WORD				;increment index by two							
 	loop L1
 
 	mov edx, OFFSET filled			;print message filled
 	call WriteString				
 	call CrLf
 
-	mov ebx, OFFSET numbers			;move address of numbers array to ebx
+	mov ebx, OFFSET numbers			;move address of numbers array to ebx			;ebx, ecx = params for the method outputArray
 	mov ecx, LENGTHOF numbers		;set loop counter to length of numbers
-	call outputArray				;call outputArray
+	call outputArray				;call outputArray								;outputarray = method 
 	call CrLf
 
-	mov ebx, OFFSET numbers
-	mov edx, OFFSET totals
-	mov ecx, LENGTHOF numbers
-	call createRunningTool
+	mov ebx, OFFSET numbers		;param1
+	mov edx, OFFSET totals		;param2
+	mov ecx, LENGTHOF numbers	;param3
+	call createRunningTool		;method call
 
 	mov ebx, OFFSET totals 
 	mov ecx, LENGTHOF totals
@@ -83,10 +86,13 @@ L1:
 	add edx, TYPE WORD
 	loop L1
 
-	popad
-	popfd
-
+	popad							;returning flags
+	popfd							;returning regisers
+									;the point is, the original register values won't be change if you do this 
 	ret
 createRunningTool ENDP
 
 END main
+
+; 1 2 3 4 5
+; 1 3 6 10 15
