@@ -8,9 +8,12 @@ INCLUDE Irvine32.inc
 
 .data
 prompt		BYTE	"Please enter the name of the data file: ", 0
+
 fileName	BYTE	20 DUP(?)
 fileHandle	DWORD	?
 msgLength	DWORD	?
+bytesRead	DWORD	?
+
 letters		BYTE	256 DUP(?)
 index		BYTE	256 DUP(?)
 
@@ -31,9 +34,16 @@ main PROC
 
 	mov eax, fileHandle
 	mov edx, OFFSET letters 
-	mov ecx, SIZEOF msgLength
+	mov ecx, LENGTHOF letters
 	call ReadFromFile
+	mov bytesRead, eax;				;+54
+	
+	call WriteInt
 
+	movzx eax, letters				;26	
+	mov msgLength, EAX
+	mov eax, msgLength
+	call WriteInt
 
 
 
