@@ -18,17 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <MASM Include="linking.asm" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="secret1.dat" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{de4734c4-14ad-4b45-8130-a01b4ccb5fdd}</ProjectGuid>
-    <RootNamespace>AssignmentFive</RootNamespace>
+    <ProjectGuid>{cd10f331-5124-481b-a1db-78d99a67fe7a}</ProjectGuid>
+    <RootNamespace>LabSix</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -150,6 +144,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <MASM Include="recursion.asm" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />

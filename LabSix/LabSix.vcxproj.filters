@@ -15,11 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="linking.asm">
+    <MASM Include="recursion.asm">
       <Filter>Source Files</Filter>
     </MASM>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="secret1.dat" />
   </ItemGroup>
 </Project>

@@ -12,7 +12,9 @@ prompt		BYTE	"Please enter the name of the data file: ", 0
 fileName	BYTE	20 DUP(?)
 fileHandle	DWORD	?
 msgLength	DWORD	?
+msgLength1	DWORD	?
 bytesRead	DWORD	?
+location	BYTE	?
 
 letters		BYTE	256 DUP(?)
 index		BYTE	256 DUP(?)
@@ -33,22 +35,45 @@ main PROC
 	mov fileHandle, eax				;save file handle
 
 	mov eax, fileHandle
-	mov edx, OFFSET letters 
-	mov ecx, LENGTHOF letters
+	mov edx, OFFSET msgLength
+	mov ecx, 1
 	call ReadFromFile
 	mov bytesRead, eax;				;+54
-	
-	call WriteInt
 
-	movzx eax, letters				;26	
-	mov msgLength, EAX
 	mov eax, msgLength
-	call WriteInt
 
+	mov eax, fileHandle
+	mov edx, OFFSET letters
+	mov ecx, msgLength
+	call ReadFromFile
 
+	mov edx, OFFSET letters
+	call WriteString
+	Call CrLf
 
+	mov ebx, msgLength
+	inc ebx
+	mov msgLength1, ebx
 
-	
+	mov eax, fileHandle
+	mov edx, OFFSET index
+	mov ecx, msgLength1
+	call ReadFromFile
+
+	mov edx, OFFSET index
+	call WriteString
+
+	mov ecx, msgLength
+	mov esi, msgLength
+
+L1:	
+	mov al, index[esi]
+	mov location, al
+	movzx edi, location
+	mov al, letters[edi]
+	call WriteChar
+	mov esi, edi
+	loop L1
 
 	call CloseFile
 	
