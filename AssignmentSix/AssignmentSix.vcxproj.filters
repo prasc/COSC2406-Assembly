@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="isdigit.asm">
+    <MASM Include="guessing.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

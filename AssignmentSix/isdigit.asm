@@ -58,8 +58,8 @@ PUSH AX
 	cmp al, 122					;ascii value for 'z' which is highest char
 	ja L1
 
-NotL:
-	xor al, al					;this will set zero flag		
+	xor al, al					;this will set zero flag	
+	;test al, 0
 
 L1:
 	POP AX
