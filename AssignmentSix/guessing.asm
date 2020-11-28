@@ -54,12 +54,12 @@ main PROC
 	mov countGuesses, 0			; initialize to zero
 
 L0:	
-	mov ebx, numToGuess
-	cmp guess, ebx
-	jz DONE
+	mov ebx, numToGuess			
+	cmp guess, ebx				; check if guess != numToGuess
+	jz DONE						; if guess == numToGuess, you're done
 
 L1:
-	mov edx, OFFSET gPrompt
+	mov edx, OFFSET gPrompt		
 	call WriteString
 	mov eax, lowerNum
 	call WriteDec
@@ -68,11 +68,11 @@ L1:
 	mov eax, upperNum
 	call WriteDec
 	mov edx, OFFSET colonPrompt
-	call WriteString
+	call WriteString			;print instructions
 
 	call ReadInt
 	mov guess, eax					;Store user's guess into guess variable
-	inc countGuesses
+	inc countGuesses				;increment number of guesses
 
 	mov ebx, lowerNum
 	mov ecx, upperNum
