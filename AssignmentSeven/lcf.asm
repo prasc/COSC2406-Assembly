@@ -20,6 +20,9 @@ bye			BYTE	"Goodbye.",0
 
 val1		DWORD	?
 val2		DWORD	?
+num1		DWORD	?
+num2		DWORD	?
+remainder	DWORD	?
 .code
 
 main PROC
@@ -61,12 +64,17 @@ L3:
 	mov eax, val2
 	call WriteInt				; print val2
 	mov edx, offset output3		; print " the gcm  is "
+	call WriteString
 
+	mov eax, val1
+	mov ecx, val2
 	call findGCD				; call procedure
-	call WriteString			; print gcm
+	call WriteInt				; print gcm
 	call CrLf
 
+
 L4:
+	call CrLf
 	cmp val1, 0					; check if val1 == 0
 	jne L1						; if it doesn't start again at L1
 	cmp val2, 0					; check if val1 == 0
@@ -80,10 +88,31 @@ L4:
 main ENDP
 
 findGCD PROC
+	mov num1, eax
+	mov num2, ecx
 
+	cmp num1, 0			; check if val1 is negative
+	jg L1
+	neg num1			; if it is, negate it
 
-L1:
+L1:	cmp num2, 0			; check if val2 is negative
+	jg L2
+	neg num2			; if it is negate it
 
+L2: 
+	mov edx, 0			; zero out edx
+	mov eax, num1
+	mov ebx, num2
+	div ebx				; divide num1 by num2
+
+	mov ecx, num2
+	mov num1, ecx		; num1 = num2
+	mov num2, edx		; num2 = remainder
+
+	cmp num2, 0
+	jg L2
+
+	mov eax, num1
 	ret
 findGCD	ENDP
 END main
