@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="lcf.asm">
+    <MASM Include="powers.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>
