@@ -1,58 +1,32 @@
 INCLUDE Irvine32.inc
 
 .data
-prompt			BYTE		"Enter three positive integers for A, B and C:  ", 0	
-output			BYTE		"A + B - C ="
-a				DWORD       ?
-b				DWORD       ?
-cee				DWORD		?
-result			DWORD		?
+varA	SDWORD	?
+varB	SDWORD	?
+varC	SDWORD	?
 
 .code
 
 main PROC
-	mov edx, OFFSET prompt
-	call WriteString
-	call CrLf
+	mov eax, varA
+	mov ebx, 3
+	imul ebx				
+	mov varA, eax			;varA = 3*A
 
-	call ReadDec
-	mov a, eax
+	mov eax, varB
+	mov ebx, 5
+	imul ebx	
+	mov varB, eax			;varB = 5*B
 
-	call ReadDec
-	mov b, eax
+	mov eax, varA
+	add eax, varB			; eax = 3A + 5B
+	cdq
 
-	call ReadDec
-	mov cee, eax
 
-	mov eax, a
-	add eax, b
-
-	sub eax, cee
-
-	mov edx, OFFSET output
-	call WriteString
-	call WriteDec
-
+	mov ebx, varC
+	idiv ebx
 
 	exit
 main ENDP
 
-populateNumbersArray PROC
-	call Randomize
-	mov ecx, LENGTHOF numbers
-
-L1:
-	push eax				; to preserve high value 
-	call RandomRange		
-	add eax, ebx
-	mov wArray[esi], eax
-	add esi, TYPE wArray	
-	pop eax					; to restore high value for next call 
-	loop L1
-
-
-	ret
-populateNumbersArray ENDP
-
-; (insert additional procedures here)
 END main
