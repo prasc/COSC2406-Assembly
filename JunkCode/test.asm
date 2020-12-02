@@ -5,6 +5,13 @@ varA	SDWORD	?
 varB	SDWORD	?
 varC	SDWORD	?
 
+opt1	BYTE	"Report the overall average", 0
+opt2	BYTE	"Count the negative numbers", 0
+opt3	BYTE	"Generate new random numbers", 0
+opt4	BYTE	"Print the balues, 10 per line", 0
+opt5	BYTE	"Exit", 0
+opt6	BYTE	"Please enter a choice", 0
+
 .code
 
 main PROC
