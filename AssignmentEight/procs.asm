@@ -67,27 +67,27 @@ options:
 	call WriteString
 	call CrLf
 
-	call ReadDec
+	call ReadDec				; store user choice in eax
 	call CrLf
 
-	cmp eax, 1
+	cmp eax, 1					; if user chooses 1, jump to averages
 	jz averages
 
-	cmp eax, 2
+	cmp eax, 2					; if user chooses 1, jump to count negatives
 	jz countnegs
 
-	cmp eax, 3
+	cmp eax, 3					; if user chooses 3, jump to generate new
 	jz gennew
 	
-	cmp eax, 4
+	cmp eax, 4					; if user chooses 4, jump to print values
 	jz printvals
 
-	cmp eax, 0
+	cmp eax, 0					; if user chooses 0, jump to good bye
 	jz bye
 
 	
 averages:
-	;push OFFSET randomNumArray	; push array onto stack
+	;push OFFSET randomNumArray		; push array onto stack
 	;push 60						; push number of elemnts in array
 	;call AverageOfArray
 	
@@ -96,35 +96,33 @@ averages:
 	;call WriteInt				; Print average
 	call CrLf
 	call CrLf
-	jmp options
+	jmp options					; Jump back to menu
 
 
 countnegs:
-	mov edx, OFFSET negsMsg		; Print average message
+	mov edx, OFFSET negsMsg		; Print negative values message
 	call WriteString
-	;call WriteInt				; Print average
+	;call WriteInt				; Print number
 	call CrLf
 	call CrLf
-	jmp options
+	jmp options					; Jump back to menu
 
 gennew:
-	mov edx, OFFSET genMsg		; Print average message
+	mov edx, OFFSET genMsg		; Print numbers generated message
 	call WriteString
-	;call WriteInt				; Print average
 	call CrLf
 	call CrLf
-	jmp options
+	jmp options					; Jump back to menu
 
 printvals:
-	mov edx, OFFSET printMsg	; Print average message
+	mov edx, OFFSET printMsg	; Print array values
 	call WriteString
-	;call WriteInt				; Print average
 	call CrLf
 	call CrLf
-	jmp options
+	jmp options					; Jump back to menu
 
 bye: 
-	mov edx, OFFSET gbye
+	mov edx, OFFSET gbye		; Print good bye
 	call WriteString
 
 
