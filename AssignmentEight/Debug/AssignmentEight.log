@@ -1,2 +1,3 @@
 ﻿  Assembling procs.asm...
+procs.asm(230): warning A6004: procedure argument or local not referenced : range
   AssignmentEight.vcxproj -> S:\Assembly\COSC2406T20F\Debug\AssignmentEight.exe

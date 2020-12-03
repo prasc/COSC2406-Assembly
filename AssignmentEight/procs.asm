@@ -6,6 +6,13 @@
 
 
 INCLUDE Irvine32.inc
+PopulateArrayRandomly PROTO,
+	arrayPtr:PTR SDWORD,
+	arrayLen:SDWORD,
+	hiNum:SDWORD,
+	lowNum:SDWORD
+
+
 .data
 opt1	BYTE	"1 - Report the overall average", 0
 opt2	BYTE	"2 - Count the negative numbers", 0
@@ -23,29 +30,19 @@ avgMsg			BYTE		"The overall average is: ", 0
 negsMsg			BYTE		"The number of negative numbers is: ", 0
 genMsg			BYTE		"Array has been repopulated.", 0
 printMsg		BYTE		"Array has been printed.", 0
-invalidMsg		BYTE		"Invalid selection. Choice: .", 0
-
+invalidMsg		BYTE		"Invalid selection.", 0
 
 .code
 
 main PROC
 	call Randomize				;initialize randomize function
 
-	mov ecx, LENGTHOF randomNumArray
-	mov esi, 0
+	push -3000
+	push 4500
+	push LENGTHOF randomNumArray
+	push OFFSET randomNumArray
 
-L1:
-	mov eax, 4500				; high
-	sub eax, -3000				; high - low
-	inc eax						; high - low + 1
-	call RandomRange			; generate random number
-	add eax, -3000				; add low to fix low end of range
-	mov randomNumArray[esi], eax	
-	;call WriteInt
-	;call CrLf
-	add esi, type SDWORD
-	loop L1						; populate array with 60 random values from -3000 to 4500
-
+	call PopulateArrayRandomly
 
 options:
 	mov edx, OFFSET opt1		; Printing menu options
@@ -85,29 +82,42 @@ options:
 	cmp eax, 0					; if user chooses 0, jump to good bye
 	jz bye
 
+	mov edx, offset invalidMsg
+	call WriteString
+	call CrLf
+	call CrLf
+	jmp options
+
 	
 averages:
-	;push OFFSET randomNumArray		; push array onto stack
-	;push 60						; push number of elemnts in array
-	;call AverageOfArray
+	push LENGTHOF randomNumArray
+	push OFFSET randomNumArray
+	call AverageOfArray
 	
 	mov edx, OFFSET avgMsg		; Print average message
 	call WriteString
-	;call WriteInt				; Print average
+	call WriteInt				; Print average
 	call CrLf
 	call CrLf
 	jmp options					; Jump back to menu
 
 
 countnegs:
+	push LENGTHOF randomNumArray
+	push OFFSET randomNumArray
+	call CountNegativeNumbers
+
+
 	mov edx, OFFSET negsMsg		; Print negative values message
 	call WriteString
-	;call WriteInt				; Print number
+	call WriteInt				; Print number
 	call CrLf
 	call CrLf
 	jmp options					; Jump back to menu
 
 gennew:
+	INVOKE PopulateArrayRandomly, OFFSET randomNumArray, LENGTHOF randomNumArray, 4500, -3000
+
 	mov edx, OFFSET genMsg		; Print numbers generated message
 	call WriteString
 	call CrLf
@@ -115,6 +125,11 @@ gennew:
 	jmp options					; Jump back to menu
 
 printvals:
+	push 10
+	push LENGTHOF randomNumArray
+	push OFFSET randomNumArray
+	call PrintArray
+
 	mov edx, OFFSET printMsg	; Print array values
 	call WriteString
 	call CrLf
@@ -129,60 +144,141 @@ bye:
 	exit
 main ENDP
 
-;*******************************************
+;****************************************************************
 ;AVERAGE OF ARRAY
-;*******************************************
+
+; Receives: LENGTHOF randomNumArray, OFFSET randomNumArray
+; Internally, [ebp - 4] holds sum
+; Returns: average in eax
+;****************************************************************
 
 AverageOfArray PROC
-	LOCAL sum:SDWORD
 	push ebp
 	mov ebp, esp
+	sub esp, 4					; make space for local variable
 
-	mov esi, [ebp + 12]			;randomNumArray
-	mov ecx, [ebp + 8]			;length of randomNumArray
+	mov ebx, 60
 
-L1:
-	add sum, esi
-	add esi, type SDWORD
+	mov esi, [ebp + 8]			; offset of array
+	mov ecx, [ebp + 12]			; lengthof array (60)
+
+L1:	
+	mov eax, DWORD PTR [esi]			; offset of array
+	add [ebp - 4], eax					; sum
+	add  esi, TYPE DWORD
 	loop L1
 
-
-	mov eax, sum
-
+	mov eax, [ebp - 4]
 	cdq
-	mov ecx, 60
-	idiv ecx
+	idiv ebx
 
+	mov esp, ebp
 	pop ebp
-	ret 8
+	ret	4						; return answer in eax
 AverageOfArray ENDP
 
+;****************************************************************
+;Count Negative Numbers
 
+; Receives: LENGTHOF randomNumArray, OFFSET randomNumArray
+; Internally, Local variable count holds amount of negative numbers
+; Returns: negative numbers in eax
+;****************************************************************
 
-;*******************************************
-;COUNT NEGATIVE NUMBERS
-;******************************************* 
+CountNegativeNumbers PROC USES esi ecx,
+	arrayPtr:PTR DWORD,
+	arrayLen:DWORD
+	LOCAL count:DWORD
 
-CountNegativeNumbers PROC
+	mov esi, arrayPtr			; offset of array
+	mov ecx, arrayLen			; lengthof array (60)
+
+L1:	
+	mov eax, DWORD PTR [esi]	; offset of array
+	cmp eax, 0
+	jge notNeg
+	inc count
+notNeg:
+	add  esi, TYPE DWORD
+	loop L1
+
+	mov eax, count
 
 	ret
 CountNegativeNumbers ENDP
 
-;******************************************* 
-;POPULATE ARRAY RANDOMLY
-;******************************************* 
+;****************************************************************
+;Populate Array Randomly
 
-PopulateArrayRandomly PROC
+; Receives: LENGTHOF randomNumArray, OFFSET randomNumArray, 3000, -4500
+; Internally, Local variable range holds high - low + 1 -low
+; Returns: Nothing
+;****************************************************************
+
+PopulateArrayRandomly PROC,
+	arrayPtr:PTR SDWORD,
+	arrayLen:SDWORD,
+	hiNum:SDWORD,
+	lowNum:SDWORD
+	LOCAL range:SDWORD
+
+	mov esi, arrayPtr
+	mov ecx, arrayLen
+
+
+
+L1:
+	mov eax, hiNum				; high
+	sub eax, lowNum				; high - low
+	inc eax						; high - low + 1
+	call RandomRange			; generate random number
+	add eax, lowNum				; add low to fix low end of range
+	mov DWORD PTR [esi], eax	
+	add esi, type SDWORD
+	loop L1						; populate array with 60 random values from -3000 to 4500
+
 
 	ret
 PopulateArrayRandomly ENDP
 
-;*******************************************
-;PRINT ARRAY
-;*******************************************
+;****************************************************************
+;Print Array
+
+; Receives: LENGTHOF randomNumArray, OFFSET randomNumArray, number of elements to print per line
+; Internally, Nothing
+; Returns: Nothing
+;****************************************************************
 
 PrintArray PROC
+	enter 0,  0
+	pushad
 
+	mov esi, [ebp + 8]			; offset of array
+	mov ecx, [ebp + 12]			; lengthof array (60)
+	mov ebx, [ebp + 16]			; num elements to print (10)
+
+
+L1:	
+	cmp ebx, 0
+	je printNewLine
+	mov eax, DWORD PTR [esi]			; offset of array
+	call WriteInt
+	mov al, ' '
+	call WriteChar
+	add  esi, TYPE DWORD
+	dec ebx
+	loop L1
+
+printNewLine:
+	call CrLf
+	mov ebx, 10
+	cmp ecx, 0
+	jne L1
+
+	call CrLf
+
+	popad
+	leave
 	ret
 PrintArray ENDP
 
