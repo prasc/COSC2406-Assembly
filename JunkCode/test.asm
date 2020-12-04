@@ -1,39 +1,81 @@
 INCLUDE Irvine32.inc
 
 .data
-varA	SDWORD	?
-varB	SDWORD	?
-varC	SDWORD	?
+varA	DWORD	?
+varB	DWORD	?
+varC	DWORD	?
+varD	DWORD	?
 
-opt1	BYTE	"Report the overall average", 0
-opt2	BYTE	"Count the negative numbers", 0
-opt3	BYTE	"Generate new random numbers", 0
-opt4	BYTE	"Print the balues, 10 per line", 0
-opt5	BYTE	"Exit", 0
-opt6	BYTE	"Please enter a choice", 0
+prompt1	BYTE	"Please enter varA: ", 0
+prompt2	BYTE	"Please enter varB: ", 0
+prompt3	BYTE	"Please enter varC: ", 0
+prompt4	BYTE	"Please enter varD: ", 0
+
+output	BYTE	"(A - B) / (C * D) = ", 0
 
 .code
 
 main PROC
-	mov eax, varA
-	mov ebx, 3
-	imul ebx				
-	mov varA, eax			;varA = 3*A
+	mov edx, offset prompt1
+	call WriteString
+	call ReadDec
+	mov varA, eax
+	
+	mov edx, offset prompt2
+	call WriteString
+	call ReadDec
+	mov varB, eax
 
-	mov eax, varB
-	mov ebx, 5
-	imul ebx	
-	mov varB, eax			;varB = 5*B
+	mov edx, offset prompt3
+	call WriteString
+	call ReadDec
+	mov varC, eax
 
-	mov eax, varA
-	add eax, varB			; eax = 3A + 5B
-	cdq
+	
+	mov edx, offset prompt4
+	call WriteString
+	call ReadDec
+	mov varD, eax
 
 
-	mov ebx, varC
-	idiv ebx
+	push varD
+	push varC
+	push varB
+	push varA
+	call calculate
+
+	mov edx, offset output
+	call WriteString
+	call WriteInt
+
 
 	exit
 main ENDP
+
+calculate PROC
+	push ebp
+	mov ebp, esp
+	sub esp, 4
+
+	mov ebx, [ebp + 8]			;ebx = varA
+	sub ebx, [ebp + 12]			;ebx = varA - varB
+
+	mov eax, [ebp + 16]			; eax = varC
+	mov ecx, [ebp + 20]			; ecx = varD
+	mul ecx						; eax = varC * varD
+
+	mov [ebp - 4], eax			; local var = varC * varD
+	mov eax, ebx				; eax = varA - varB
+
+	div DWORD PTR [ebp - 4]
+
+
+	mov esp, ebp
+	pop ebp
+	ret 4
+calculate ENDP
+
+
+
 
 END main
