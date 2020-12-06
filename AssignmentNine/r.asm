@@ -145,8 +145,12 @@ cont:
 
 
 goodbye:
+	call showFPUStack
+	call CrLf
+
 	mov edx, offset bye
 	call WriteString
+
 
 	exit
 main ENDP
@@ -154,4 +158,3 @@ main ENDP
 END main
 
 
-;fsqrt       
