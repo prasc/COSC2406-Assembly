@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="test.asm">
+    <MASM Include="modtest10.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

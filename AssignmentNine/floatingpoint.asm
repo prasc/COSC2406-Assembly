@@ -11,6 +11,8 @@ prompt	BYTE	"Enter a float value: ", 0
 output	BYTE	"Real number in binary: ", 0
 
 num		REAL4	?
+dwordnum	DWORD	?
+buffer	BYTE	32 DUP(0), 0
 
 .code
 
@@ -26,22 +28,36 @@ main PROC
 	push num
 	call displayNum
 
-	;mov edx, OFFSET output
-	;call WriteString
-	;call WriteFloat
 
-	;call showFPUStack
+	call showFPUStack
 	exit
 main ENDP
 
 displayNum PROC
 	ENTER 0, 0
 
-	fld REAL4 PTR [ebp + 8]
-	call WriteFloat
+	mov edx, OFFSET output
+	call WriteString
 
+	fld DWORD PTR [ebp + 8]
+	fist dwordnum
+	mov eax, dwordnum
 
-	call showFPUStack
+	shl eax, 1
+	mov al, '0'
+	jnc pos
+	mov al, '-'
+	call WriteChar
+	mov al, '1'
+pos:
+	call WriteChar
+	mov al, '.'
+	call WriteChar
+
+	;Sorry Mike, I give up
+	;I tried for a couple hours and have no idea what to do
+	
+
 	LEAVE
 	ret 4
 displayNum ENDP
