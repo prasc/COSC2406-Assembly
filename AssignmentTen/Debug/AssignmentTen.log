@@ -1,5 +1,2 @@
-﻿  Assembling 2darray.asm...
-2darray.asm(144): error A2070: invalid instruction operands
-2darray.asm(138): error A2026: constant expected
-2darray.asm(148): warning A6004: procedure argument or local not referenced : cols
-S:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations\masm.targets(70,5): error MSB3721: The command "ml.exe /c /nologo /Zi /Fo"Debug\2darray.obj" /I "S:\Irvine" /W3 /errorReport:prompt  /Ta2darray.asm" exited with code 1.
+﻿question2.obj : error LNK2019: unresolved external symbol _sumColumnOfArray@16 referenced in function _main@0
+D:\wslDirectory\Assembly\COSC2406T20F\Debug\AssignmentTen.exe : fatal error LNK1120: 1 unresolved externals

@@ -127,7 +127,7 @@ CONT:
 	ret 12
 printArray ENDP
 
-;incomplete, can't seem to figure out the logic
+comment ! 
 sumColumnOfArray PROC,
 	cols: DWORD,
 	rows: DWORD,
@@ -147,5 +147,6 @@ L1:
 
 	ret
 sumColumnOfArray ENDP
+!
 
 END main

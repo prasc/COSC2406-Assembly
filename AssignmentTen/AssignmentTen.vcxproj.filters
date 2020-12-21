@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="2darray.asm">
+    <MASM Include="question2.asm">
       <Filter>Source Files</Filter>
     </MASM>
   </ItemGroup>

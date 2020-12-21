@@ -15,9 +15,11 @@ INCLUDE Irvine32.inc
 ; 3 DUP(2 DUP("hi")) -> "hi"
 
 .data 
-arr		SWORD	5 DUP(?) 
-prompt	BYTE	"Enter an integer: ", 0
-comma	BYTE	", ", 0
+arr				SWORD	5 DUP(?) 
+prompt			BYTE	"Enter an integer: ", 0
+comma			BYTE	", ", 0
+total			DWORD	?
+totalPrompt		BYTE	"The total of the 5 numbers is: ", 0
 
 .code
 main PROC
@@ -54,32 +56,42 @@ main PROC
 	call WriteChar		; print {					;WriteChar will print anything in al
 	
 	movsx eax, arr	
+	add total, eax
 	call WriteInt		;print array[0]
 
 	mov edx, OFFSET comma		
 	call WriteString
 
 	movsx eax, arr[+2]	;print array[1]
+	add total, eax
 	call WriteInt
 
 	call WriteString
 
 	movsx eax, arr[+4]	;print array[2]
+	add total, eax
 	call WriteInt
 
 	call WriteString
 
 	movsx eax, arr[+6]	;print array[3]
+	add total, eax
 	call WriteInt
 
 	call WriteString
 
 	movsx eax, arr[+8]	;print array[4]
+	add total, eax
 	call WriteInt
 	
 	mov al, '}'		
 	call WriteChar		; print }
+	call Crlf
 
+	mov edx, offset totalPrompt
+	call WriteString
+	mov eax, total
+	call WriteInt
 
 	exit
 main ENDP

@@ -16,20 +16,20 @@ main PROC
 	call WriteString
 	call CrLf
 
-	mov ecx, 8																					 
+	mov ecx, 8					; set ecx to outter loop count									 
 
-L1:	
-	mov count, ecx
-	mov ecx, 5
-	L2:
-	mov eax, ecx
-	call WriteInt
-	mov al, " "
-	call WriteChar
-	loop L2
-	call CrLf
-	mov ecx, count
-	loop L1
+outer:	
+	mov count, ecx				; preserve outter loop count
+	mov ecx, 5					; set ecx to inner loop count
+	inner:
+	mov eax, ecx				; move inner loop count to eax
+	call WriteInt				; print inner loop count
+	mov al, " "					; print blank space
+	call WriteChar			
+	loop inner					; repeat inner loop until 0			
+	call CrLf					; print new line
+	mov ecx, count				
+	loop outer					; do that 8 times
 
 
 	exit

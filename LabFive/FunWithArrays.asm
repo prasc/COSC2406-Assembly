@@ -19,7 +19,8 @@ main PROC
 																			; edx = string, eax = int, al = char, ecx = loop counter
 	mov esi, 0						;reset index register				; esi  = index counter 
 
-	; the formula for range is ALWAYS, (high - low) + 1, 0-200, 200 - 0 + 1
+	; the formula for range is ALWAYS, (high - low) + 1, 
+	; for the range of 0-200, we do:  200 - 0 + 1
 
 L1:	
 	mov eax, 200 - 0 + 1			;prepare eax for randomrange function			; for randomrange function, you need to put range in eax
